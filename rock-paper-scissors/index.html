@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors!</title>
+    </head>
+    <body style="background-color: black; color: white;">
+        <script>
+            // Functions declaration
+            function computerPlay(){
+                let selections = ["rock", "paper", "scissors"];
+                return selections[Math.floor(Math.random() * 3)];
+            }
+
+            function singleRound(playerSelection, computerSelection){
+                let userWins = `You win! ${playerSelection} beats ${computerSelection}`;
+                let userLoses = `You lose! ${computerSelection} beats ${playerSelection}`;
+                let userTies = `It's a tie! ${playerSelection} = ${computerSelection}`;
+
+                playerSelection = playerSelection.toLowerCase();
+                let roundResult;
+                switch(playerSelection){
+                    case "rock":
+                        if(computerSelection === "rock") roundResult = userTies;
+                        if(computerSelection === "paper") roundResult = userLoses;
+                        if(computerSelection === "scissors") roundResult = userWins;
+                    break;
+                    case "paper":
+                        if(computerSelection === "rock") roundResult = userWins;
+                        if(computerSelection === "paper") roundResult = userTies;
+                        if(computerSelection === "scissors") roundResult = userLoses;
+                    break;
+                    case "scissors":
+                        if(computerSelection === "rock") roundResult = userLoses;
+                        if(computerSelection === "paper") roundResult = userWins;
+                        if(computerSelection === "scissors") roundResult = userTies;
+                    break;
+                }
+                return roundResult;
+            }
+
+            function game(){
+                for(let i = 0; i < 5; i++){
+                    alert(singleRound(prompt("Type your weapon!"), computerPlay()));
+                }
+            }
+            game();
+        </script>
+    </body>
+</html>
