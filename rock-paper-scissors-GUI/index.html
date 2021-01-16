@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors!</title>
+    </head>
+    <body style="background-color: black; color: white;">
+        <button id="rock" data-option="rock" class="btn" type="buton">Rock</button>
+        <button data-option="paper" class="btn" type="buton">Paper</button>
+        <button data-option="scissors" class="btn" type="buton">Scissors</button>
+        <div class="score"></div>
+        <div id="results"></div>
+        <div id="winner"></div>
+    </body>
+</html>
+
+<script>
+
+    // events and calls
+
+    
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => button.addEventListener('click', game));
+    buttons.forEach(button => button.addEventListener('click', scores));
+    buttons.forEach(button => button.addEventListener('click', announceWinner = () =>{
+        if(userScore >= 5){
+            const score = document.createElement('p');
+            score.textContent = `USER WINS!!`;
+            const div = document.querySelector('#winner');
+            div.appendChild(score);
+        }
+        else if(computerScore >= 5){
+            const score = document.createElement('p');
+            score.textContent = `COMPUTER WINS!!`;
+            const div = document.querySelector('#winner');
+            div.appendChild(score);
+        }
+    }));
+
+    let userScore = 0;
+    let computerScore = 0;
+
+    // Functions declaration
+    function computerPlay(){
+        let selections = ["rock", "paper", "scissors"];
+        return selections[Math.floor(Math.random() * 3)];
+    }
+
+    function playRound  (playerSelection, computerSelection){
+
+        let userWins = `You win! ${playerSelection} beats ${computerSelection}`;
+        let userLoses = `You lose! ${computerSelection} beats ${playerSelection}`;
+        let userTies = `It's a tie! ${playerSelection} = ${computerSelection}`;
+
+        playerSelection = playerSelection.toLowerCase();
+        let roundResult;
+        switch(playerSelection){
+            case "rock":
+                if(computerSelection === "rock") roundResult = userTies;
+                if(computerSelection === "paper") roundResult = userLoses;
+                if(computerSelection === "scissors") roundResult = userWins;
+            break;
+            case "paper":
+                if(computerSelection === "rock") roundResult = userWins;
+                if(computerSelection === "paper") roundResult = userTies;
+                if(computerSelection === "scissors") roundResult = userLoses;
+            break;
+            case "scissors":
+                if(computerSelection === "rock") roundResult = userLoses;
+                if(computerSelection === "paper") roundResult = userWins;
+                if(computerSelection === "scissors") roundResult = userTies;
+            break;
+        }
+        if(roundResult === userWins) userScore++;
+        if(roundResult === userLoses) computerScore++;
+        return roundResult;
+    }
+
+    function game(e){
+        const playerSelection = e.target;
+        const para = document.createElement('p');
+        para.textContent = playRound(playerSelection.dataset.option, computerPlay());
+        const div = document.querySelector('#results');
+        if(!div.firstChild) div.appendChild(para);
+        else{
+            let temp = document.querySelector('#results');
+            temp.replaceChild(para, temp.firstChild);
+        }
+        div.appendChild(para);
+    }   
+    
+    // display the score below the buttons
+    function scores(e){
+        const score = document.createElement('p');
+        score.textContent = `User: ${userScore} / Computer: ${computerScore}`;
+        const div = document.querySelector('.score');
+        if(!div.firstChild){
+            div.appendChild(score);
+        }
+        else{
+            const temp = document.querySelector('.score');
+            div.replaceChild(score, temp.firstChild);
+        }
+    }
+
+    /*
+    // Display the winner when the user or pc reach a score of 5
+    function announceWinner(){
+        if(userScore >= 5){
+            const score = document.createElement('p');
+            score.textContent = `USER WINS!!`;
+            const div = document.querySelector('#winner');
+            div.appendChild(score);
+        }
+        else if(computerScore >= 5){
+            const score = document.createElement('p');
+            score.textContent = `COMPUTER WINS!!`;
+            const div = document.querySelector('#winner');
+            div.appendChild(score);
+        }
+    }
+    */
+
+</script>
